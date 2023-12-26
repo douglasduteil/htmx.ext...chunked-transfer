@@ -1,4 +1,4 @@
-# htmx-ext-chunked-transfer
+# htmx.ext...chunked-transfer
 
 [![CI][gha-image]][gha-url]
 [![NPM version][npm-image]][npm-url]
