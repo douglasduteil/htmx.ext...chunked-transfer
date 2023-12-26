@@ -64,8 +64,8 @@ www.use(
         </html>
       );
     },
-    { docType: true, stream: true }
-  )
+    { docType: true, stream: true },
+  ),
 );
 
 www.get("/", ({ render }) => {
@@ -86,7 +86,7 @@ www.get("/", ({ render }) => {
       <button class="btn" hx-get="/magic">
         {date_to_local_string(new Date())} - Click to do the hx-get="/magic"
       </button>
-    </ErrorBoundary>
+    </ErrorBoundary>,
   );
 });
 
@@ -107,8 +107,8 @@ www.get("/magic", ({ body }) => {
             </Wait_3_Sec>
           </Suspense>
         </ErrorBoundary>
-      </div>
-    )
+      </div>,
+    ),
   );
 });
 
@@ -133,7 +133,7 @@ const assets = new Hono()
     "/node_modules/*",
     serveStatic({
       rewriteRequestPath: rewriteAssetRequestPath,
-    })
+    }),
   );
 
 hono.route(`/assets/${env.VERSION}`, assets);

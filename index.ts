@@ -32,7 +32,7 @@ import type { HtmxExtension } from "htmx.org";
             target,
             elt,
             response,
-            settleInfo
+            settleInfo,
           );
           api.settleImmediately(settleInfo.tasks);
         };
@@ -63,12 +63,12 @@ interface HtmxApi {
     target: Element,
     elt: Element,
     responseText: string,
-    settleInfo: SettleInfo
+    settleInfo: SettleInfo,
   ): void;
   settleImmediately(tasks: Task[]): void;
   withExtensions(
     elt: Element,
-    callback: (extension: HtmxExtension) => void
+    callback: (extension: HtmxExtension) => void,
   ): void;
 }
 
