@@ -1,0 +1,33 @@
+{
+  "name": "htmx-ext-chunked-transfer",
+  "version": "0.0.0",
+  "description": "Chunked transfer encoding extension for htmx.",
+  "keywords": [
+    "htmx",
+    "chunked",
+    "transfer",
+    "encoding",
+    "extension"
+  ],
+  "files": [
+    "dist",
+    "index.ts"
+  ],
+  "license": "WTFPL",
+  "author": "Douglas Duteil <douglasduteil@gmail.com> (https://douglasduteil.github.io/)",
+  "type": "module",
+  "module": "index.ts",
+  "scripts": {
+    "build": "bun build index.ts --outdir dist",
+    "dev": "bun start",
+    "test": "bun test"
+  },
+  "devDependencies": {
+    "@tsconfig/bun": "^1.0.1",
+    "@types/web": "^0.0.130",
+    "bun-types": "^1.0.20",
+    "htmx.org": "^1.9.10",
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {}
+}
