@@ -21,8 +21,10 @@ $ npm install htmx.ext...chunked-transfer
 
 ## Usage
 
-```sh
-$ npm install htmx.ext...chunked-transfer
+```html
+<body hx-ext="chunked-transfer">
+  ...
+</body>
 ```
 
 ## [Examples](./example/)
