@@ -7,6 +7,5 @@
     ":timezone(Europe/Paris)"
   ],
   "dependencyDashboardAutoclose": true,
-  "postUpdateOptions": ["npmDedupe", "yarnDedupeHighest"],
   "labels": ["dependencies"]
 }
