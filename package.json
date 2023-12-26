@@ -1,5 +1,5 @@
 {
-  "name": "htmx-ext-chunked-transfer",
+  "name": "htmx.ext...chunked-transfer",
   "version": "0.0.0",
   "description": "Chunked transfer encoding extension for htmx.",
   "keywords": [

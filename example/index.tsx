@@ -16,8 +16,7 @@ function rewriteAssetRequestPath(path: string) {
 }
 
 const Wait_3_Sec = async ({ children }: { children: Child }) => {
-  const magic = new Date();
-  await new Promise((r) => setTimeout(r, 3_000));
+  await new Promise((resolve) => setTimeout(resolve, 3_000));
   return <>{children}</>;
 };
 
@@ -43,6 +42,9 @@ www.use(
           </head>
           <body>
             <h1>htmx ext : Chunked Transfer</h1>
+            <blockquote>
+              Stream while wait 3 seconds for a timeout to end.
+            </blockquote>
             {children}
           </body>
           {html`
@@ -69,20 +71,21 @@ www.use(
 www.get("/", ({ render }) => {
   const start = new Date();
   return render(
-    <ErrorBoundary fallback={<div>Fallback :(</div>}>
-      <h2>Initial stream _ {date_to_local_string(start)}</h2>
+    <ErrorBoundary fallback={<div>Fallback 0_O</div>}>
+      <h2>{date_to_local_string(start)} - Initial stream</h2>
 
       <Suspense
         fallback={<div>{date_to_local_string(start)} - Loading ...</div>}
       >
-        <Wait_3_Sec>{date_to_local_string(new Date())} - Lazy Hello</Wait_3_Sec>
+        <Wait_3_Sec>
+          <p>{date_to_local_string(new Date())} - Hono Lazy Hello</p>
+        </Wait_3_Sec>
       </Suspense>
 
-      <div id="magic">
-        <button class="btn" hx-get="/magic" hx-target="#magic">
-          {date_to_local_string(new Date())} - Click to do the magic
-        </button>
-      </div>
+      <h2>{date_to_local_string(start)} - HTMX stream</h2>
+      <button class="btn" hx-get="/magic">
+        {date_to_local_string(new Date())} - Click to do the hx-get="/magic"
+      </button>
     </ErrorBoundary>
   );
 });
@@ -98,7 +101,10 @@ www.get("/magic", ({ body }) => {
           <Suspense
             fallback={<div>{date_to_local_string(magic)} - Loading ... </div>}
           >
-            <Wait_3_Sec>{date_to_local_string(magic)} - Lazy Magic</Wait_3_Sec>
+            <Wait_3_Sec>
+              {date_to_local_string(magic)} - Click to do the hx-get="/magic"
+              again
+            </Wait_3_Sec>
           </Suspense>
         </ErrorBoundary>
       </div>
