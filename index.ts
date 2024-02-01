@@ -17,6 +17,11 @@ import type { HtmxExtension } from "htmx.org";
       if (name === "htmx:beforeRequest") {
         const xhr = evt.detail.xhr as XMLHttpRequest;
         xhr.onprogress = function () {
+          const is_chunked =
+            xhr.getResponseHeader("Transfer-Encoding") === "chunked";
+
+          if (!is_chunked) return;
+
           let response = xhr.response as string;
 
           api.withExtensions(elt, function (extension) {

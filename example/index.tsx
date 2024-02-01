@@ -32,7 +32,7 @@ www.use(
   jsxRenderer(
     ({ children }) => {
       return (
-        <html hx-ext="chunked-transfer">
+        <html hx-ext={["debug", "chunked-transfer"].join(", ")}>
           <head>
             <meta
               name="viewport"
