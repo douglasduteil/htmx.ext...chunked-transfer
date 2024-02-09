@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "concrete.css": "^2.0.3",
-    "hono": "^3.11.7",
+    "hono": "^4.0.0",
     "htmx.org": "^1.9.9",
     "normalize.css": "^8.0.1"
   },
