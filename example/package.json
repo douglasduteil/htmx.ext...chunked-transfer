@@ -9,7 +9,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "concrete.css": "^2.0.3",
+    "concrete.css": "^3.0.0",
     "hono": "^4.0.0",
     "htmx.org": "^1.9.9",
     "normalize.css": "^8.0.1"
