@@ -28,7 +28,7 @@
     "@tsconfig/bun": "^1.0.1",
     "@types/web": "^0.0.152",
     "bun-types": "^1.0.20",
-    "htmx.org": "^1.9.10",
+    "htmx.org": "^2.0.0",
     "prettier": "^3.1.1",
     "typescript": "^5.0.0"
   },
