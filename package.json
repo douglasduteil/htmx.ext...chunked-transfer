@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@tsconfig/bun": "^1.0.1",
-    "@types/web": "^0.0.182",
+    "@types/web": "^0.0.183",
     "bun-types": "^1.0.20",
     "htmx.org": "^1.9.10",
     "prettier": "^3.1.1",
