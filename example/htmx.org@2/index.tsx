@@ -15,8 +15,14 @@ function rewriteAssetRequestPath(path: string) {
   return path.replace(`/assets/${env.VERSION}`, "");
 }
 
-const Wait_3_Sec = async ({ children }: { children: Child }) => {
-  await new Promise((resolve) => setTimeout(resolve, 3_000));
+const Wait_X_Sec = async ({
+  children,
+  seconds = 0,
+}: {
+  children: Child;
+  seconds?: number;
+}) => {
+  await new Promise((resolve) => setTimeout(resolve, seconds * 1_000));
   return <>{children}</>;
 };
 
@@ -38,28 +44,19 @@ www.use(
               name="viewport"
               content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1"
             />
-            <title>htmx ext : Chunked Transfer</title>
+            <title>htmx ext : Chunked Transfer using htmx.org@2</title>
           </head>
           <body>
-            <h1>htmx ext : Chunked Transfer</h1>
+            <h1>htmx ext : Chunked Transfer using htmx.org@2</h1>
             <blockquote>
               Stream while wait 3 seconds for a timeout to end.
             </blockquote>
             {children}
           </body>
           {html`
-            <script
-              type="module"
-              src="/assets/${env.VERSION}/node_modules/htmx.org/dist/htmx.js"
-            ></script>
-            <script
-              type="module"
-              src="/assets/${env.VERSION}/node_modules/htmx.org/dist/ext/debug.js"
-            ></script>
-            <script
-              type="module"
-              src="/assets/${env.VERSION}/htmx-ext-chunked-transfer.js"
-            ></script>
+            <script src="/assets/${env.VERSION}/node_modules/htmx.org/dist/htmx.js"></script>
+            <script src="/assets/${env.VERSION}/node_modules/htmx-ext-debug/debug.js"></script>
+            <script src="/assets/${env.VERSION}/htmx-ext-chunked-transfer.js"></script>
           `}
         </html>
       );
@@ -75,11 +72,32 @@ www.get("/", ({ render }) => {
       <h2>{date_to_local_string(start)} - Initial stream</h2>
 
       <Suspense
-        fallback={<div>{date_to_local_string(start)} - Loading ...</div>}
+        fallback={<p>{date_to_local_string(start)} - Loading 0 seconds...</p>}
       >
-        <Wait_3_Sec>
-          <p>{date_to_local_string(new Date())} - Hono Lazy Hello</p>
-        </Wait_3_Sec>
+        <Wait_X_Sec>
+          <p>{date_to_local_string(new Date())} -Hono Lazy Hello</p>
+        </Wait_X_Sec>
+      </Suspense>
+      <Suspense
+        fallback={<p>{date_to_local_string(start)} - Loading 1 seconds...</p>}
+      >
+        <Wait_X_Sec seconds={1}>
+          <p>{date_to_local_string(new Date())} - Loaded after 1 second</p>
+        </Wait_X_Sec>
+      </Suspense>
+      <Suspense
+        fallback={<p>{date_to_local_string(start)} - Loading 2 seconds...</p>}
+      >
+        <Wait_X_Sec seconds={2}>
+          <p>{date_to_local_string(new Date())} - Loaded after 2 second</p>
+        </Wait_X_Sec>
+      </Suspense>
+      <Suspense
+        fallback={<p>{date_to_local_string(start)} - Loading 3 seconds...</p>}
+      >
+        <Wait_X_Sec seconds={3}>
+          <p>{date_to_local_string(new Date())} - Loaded after 3 second</p>
+        </Wait_X_Sec>
       </Suspense>
 
       <h2>{date_to_local_string(start)} - HTMX stream</h2>
@@ -101,10 +119,10 @@ www.get("/magic", ({ body }) => {
           <Suspense
             fallback={<div>{date_to_local_string(magic)} - Loading ... </div>}
           >
-            <Wait_3_Sec>
+            <Wait_X_Sec>
               {date_to_local_string(magic)} - Click to do the hx-get="/magic"
               again
-            </Wait_3_Sec>
+            </Wait_X_Sec>
           </Suspense>
         </ErrorBoundary>
       </div>,
@@ -124,7 +142,7 @@ const assets = new Hono()
     const {
       outputs: [output],
     } = await Bun.build({
-      entrypoints: ["../index.ts"],
+      entrypoints: ["../../index.ts"],
       external: [],
     });
     return new Response(output);
