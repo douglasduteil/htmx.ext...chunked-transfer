@@ -9,10 +9,6 @@
     "encoding",
     "extension"
   ],
-  "files": [
-    "dist",
-    "index.ts"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/douglasduteil/htmx.ext...chunked-transfer.git"
@@ -20,9 +16,13 @@
   "license": "WTFPL",
   "author": "Douglas Duteil <douglasduteil@gmail.com> (https://douglasduteil.github.io/)",
   "type": "module",
-  "module": "index.ts",
   "main": "dist/index.js",
   "unpkg": "dist/index.js",
+  "module": "index.ts",
+  "files": [
+    "dist",
+    "index.ts"
+  ],
   "scripts": {
     "build": "bun build index.ts --outdir dist",
     "dev": "bun start",
@@ -36,5 +36,9 @@
     "prettier": "^3.1.1",
     "typescript": "^5.0.0"
   },
-  "peerDependencies": {}
+  "peerDependencies": {},
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
 }
