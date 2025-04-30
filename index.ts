@@ -35,7 +35,13 @@ import type { HtmxExtension } from "htmx.org";
           if (api.swap) {
             api.swap(target, response, swapSpec);
           } else {
-            api.selectAndSwap(swapSpec.swapStyle, target, elt, response, settleInfo);
+            api.selectAndSwap(
+              swapSpec.swapStyle,
+              target,
+              elt,
+              response,
+              settleInfo,
+            );
           }
           api.settleImmediately(settleInfo.tasks);
         };
@@ -82,23 +88,23 @@ interface HtmxApi {
 }
 
 interface SwapSpec {
-  swapStyle: string,
-  swapDelay: Number,
-  settleDelay: Number,
-  transition: Boolean,
-  ignoreTitle: Boolean,
-  head: string,
+  swapStyle: string;
+  swapDelay: Number;
+  settleDelay: Number;
+  transition: Boolean;
+  ignoreTitle: Boolean;
+  head: string;
   // scroll, scrollTarget, show, showTarget, focusScroll
 }
 
 interface SwapOptions {
-  select: string,
-  selectOOB: string,
-  eventInfo: Object,
-  anchor: Element,
-  contextElement: Element,
-  afterSwapCallback: () => void,
-  afterSettleCallback: () => void,
+  select: string;
+  selectOOB: string;
+  eventInfo: Object;
+  anchor: Element;
+  contextElement: Element;
+  afterSwapCallback: () => void;
+  afterSettleCallback: () => void;
 }
 
 interface SettleInfo {
