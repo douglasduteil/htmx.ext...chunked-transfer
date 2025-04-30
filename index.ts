@@ -13,6 +13,7 @@ import type { HtmxExtension } from "htmx.org";
     },
     onEvent: function (name, evt) {
       const elt = evt.target as Element;
+      const target = api.getTarget(elt);
 
       if (name === "htmx:beforeRequest") {
         const xhr = evt.detail.xhr as XMLHttpRequest;
@@ -30,15 +31,12 @@ import type { HtmxExtension } from "htmx.org";
           });
 
           var swapSpec = api.getSwapSpecification(elt);
-          var target = api.getTarget(elt);
           var settleInfo = api.makeSettleInfo(elt);
-          api.selectAndSwap(
-            swapSpec.swapStyle,
-            target,
-            elt,
-            response,
-            settleInfo,
-          );
+          if (api.swap) {
+            api.swap(target, response, swapSpec);
+          } else {
+            api.selectAndSwap(swapSpec.swapStyle, target, elt, response, settleInfo);
+          }
           api.settleImmediately(settleInfo.tasks);
         };
       }
