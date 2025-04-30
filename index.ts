@@ -13,6 +13,7 @@ import type { HtmxExtension } from "htmx.org";
     },
     onEvent: function (name, evt) {
       const elt = evt.target as Element;
+      const target = api.getTarget(elt);
 
       if (name === "htmx:beforeRequest") {
         const xhr = evt.detail.xhr as XMLHttpRequest;
@@ -30,15 +31,12 @@ import type { HtmxExtension } from "htmx.org";
           });
 
           var swapSpec = api.getSwapSpecification(elt);
-          var target = api.getTarget(elt);
           var settleInfo = api.makeSettleInfo(elt);
-          api.selectAndSwap(
-            swapSpec.swapStyle,
-            target,
-            elt,
-            response,
-            settleInfo,
-          );
+          if (api.swap) {
+            api.swap(target, response, swapSpec);
+          } else {
+            api.selectAndSwap(swapSpec.swapStyle, target, elt, response, settleInfo);
+          }
           api.settleImmediately(settleInfo.tasks);
         };
       }
@@ -60,21 +58,47 @@ declare global {
 
 interface HtmxApi {
   defineExtension(name: string, extension: HtmxExtension): void;
-  getSwapSpecification(elt: Element): { swapStyle: string };
+  getSwapSpecification(elt: Element): SwapSpec;
   getTarget(elt: Element): Element;
   makeSettleInfo(elt: Element): SettleInfo;
-  selectAndSwap(
+  selectAndSwap( // HTMX 1.0
     swapStyle: string,
     target: Element,
     elt: Element,
     responseText: string,
     settleInfo: SettleInfo,
   ): void;
+  swap( // HTMX 2.0
+    target: Element,
+    content: string,
+    swapSpec: SwapSpec,
+    swapOptions?: SwapOptions,
+  ): void;
   settleImmediately(tasks: Task[]): void;
   withExtensions(
     elt: Element,
     callback: (extension: HtmxExtension) => void,
   ): void;
+}
+
+interface SwapSpec {
+  swapStyle: string,
+  swapDelay: Number,
+  settleDelay: Number,
+  transition: Boolean,
+  ignoreTitle: Boolean,
+  head: string,
+  // scroll, scrollTarget, show, showTarget, focusScroll
+}
+
+interface SwapOptions {
+  select: string,
+  selectOOB: string,
+  eventInfo: Object,
+  anchor: Element,
+  contextElement: Element,
+  afterSwapCallback: () => void,
+  afterSettleCallback: () => void,
 }
 
 interface SettleInfo {
