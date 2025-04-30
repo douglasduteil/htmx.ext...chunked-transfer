@@ -13,6 +13,10 @@
     "dist",
     "index.ts"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/douglasduteil/htmx.ext...chunked-transfer.git"
+  },
   "license": "WTFPL",
   "author": "Douglas Duteil <douglasduteil@gmail.com> (https://douglasduteil.github.io/)",
   "type": "module",
