@@ -17,14 +17,14 @@
   "author": "Douglas Duteil <douglasduteil@gmail.com> (https://douglasduteil.github.io/)",
   "type": "module",
   "main": "dist/index.js",
-  "unpkg": "dist/index.js",
+  "unpkg": "dist/index.min.js",
   "module": "index.ts",
   "files": [
     "dist",
     "index.ts"
   ],
   "scripts": {
-    "build": "bun build index.ts --outdir dist",
+    "build": "bun run scripts/build.ts",
     "dev": "bun start",
     "test": "bun test"
   },
