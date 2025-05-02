@@ -2,7 +2,7 @@
   "extends": "@tsconfig/bun/tsconfig.json",
   "compilerOptions": {
     "lib": ["DOM", "ESNext"],
-    "types": ["web", "bun-types"],
+    "types": ["web"],
     "verbatimModuleSyntax": true,
     "strict": true
   },
