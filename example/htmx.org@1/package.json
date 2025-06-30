@@ -11,7 +11,7 @@
   "dependencies": {
     "concrete.css": "^3.0.0",
     "hono": "^4.0.0",
-    "htmx.org": "^1.9.9",
+    "htmx.org": "^2.0.0",
     "normalize.css": "^8.0.1"
   },
   "scripts": {
