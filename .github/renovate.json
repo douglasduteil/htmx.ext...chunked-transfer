@@ -7,5 +7,12 @@
     ":timezone(Europe/Paris)"
   ],
   "dependencyDashboardAutoclose": true,
-  "labels": ["dependencies"]
+  "labels": ["dependencies"],
+  "packageRules": [
+    {
+      "matchFileNames": ["example/htmx.org@1/**"],
+      "matchPackageNames": ["htmx.org"],
+      "allowedVersions": "< 2.0.0"
+    }
+  ]
 }
