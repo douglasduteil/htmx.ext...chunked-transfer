@@ -25,6 +25,11 @@ import type { HtmxExtension } from "htmx.org";
 
           let response = xhr.response as string;
 
+          // Skip comment-only chunks (heartbeats), but allow empty chunks through
+          const hasComment = /<!--[\s\S]*?-->/.test(response);
+          const stripped = response.replace(/<!--[\s\S]*?-->/g, "").trim();
+          if (hasComment && stripped.length === 0) return;
+
           api.withExtensions(elt, function (extension) {
             if (!extension.transformResponse) return;
             response = extension.transformResponse(response, xhr, elt);
