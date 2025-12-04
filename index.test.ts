@@ -233,6 +233,170 @@ describe("chunked-transfer extension", () => {
     });
   });
 
+  describe("comment filtering (heartbeats)", () => {
+    test("ignores comment-only chunks", () => {
+      const element = document.createElement("div");
+      const mockXhr = {
+        getResponseHeader: (header: string) => {
+          if (header === "Transfer-Encoding") return "chunked";
+          return null;
+        },
+        response: "<!-- heartbeat -->",
+        onprogress: null as any,
+      };
+
+      const event = {
+        target: element,
+        detail: { xhr: mockXhr },
+      };
+
+      registeredExtension.onEvent("htmx:beforeRequest", event);
+      mockXhr.onprogress!();
+
+      // Target should remain empty (comment-only chunk ignored)
+      expect(target.innerHTML).toBe("");
+    });
+
+    test("ignores multi-line comment-only chunks", () => {
+      const element = document.createElement("div");
+      const mockXhr = {
+        getResponseHeader: (header: string) => {
+          if (header === "Transfer-Encoding") return "chunked";
+          return null;
+        },
+        response: "<!-- \n  heartbeat\n  still processing\n -->",
+        onprogress: null as any,
+      };
+
+      const event = {
+        target: element,
+        detail: { xhr: mockXhr },
+      };
+
+      registeredExtension.onEvent("htmx:beforeRequest", event);
+      mockXhr.onprogress!();
+
+      // Multi-line comment should also be ignored
+      expect(target.innerHTML).toBe("");
+    });
+
+    test("ignores multiple comments without content", () => {
+      const element = document.createElement("div");
+      const mockXhr = {
+        getResponseHeader: (header: string) => {
+          if (header === "Transfer-Encoding") return "chunked";
+          return null;
+        },
+        response: "<!-- comment 1 --><!-- comment 2 -->   ",
+        onprogress: null as any,
+      };
+
+      const event = {
+        target: element,
+        detail: { xhr: mockXhr },
+      };
+
+      registeredExtension.onEvent("htmx:beforeRequest", event);
+      mockXhr.onprogress!();
+
+      // Multiple comments with only whitespace should be ignored
+      expect(target.innerHTML).toBe("");
+    });
+
+    test("processes chunks with comments and HTML content", () => {
+      const element = document.createElement("div");
+      const mockXhr = {
+        getResponseHeader: (header: string) => {
+          if (header === "Transfer-Encoding") return "chunked";
+          return null;
+        },
+        response: "<!-- debug info --><p>Content</p>",
+        onprogress: null as any,
+      };
+
+      const event = {
+        target: element,
+        detail: { xhr: mockXhr },
+      };
+
+      registeredExtension.onEvent("htmx:beforeRequest", event);
+      mockXhr.onprogress!();
+
+      // Should process the chunk (has HTML beyond comments)
+      expect(target.innerHTML).toBe("<!-- debug info --><p>Content</p>");
+    });
+
+    test("processes chunks with comments between HTML", () => {
+      const element = document.createElement("div");
+      const mockXhr = {
+        getResponseHeader: (header: string) => {
+          if (header === "Transfer-Encoding") return "chunked";
+          return null;
+        },
+        response: "<p>Start</p><!-- middle --><p>End</p>",
+        onprogress: null as any,
+      };
+
+      const event = {
+        target: element,
+        detail: { xhr: mockXhr },
+      };
+
+      registeredExtension.onEvent("htmx:beforeRequest", event);
+      mockXhr.onprogress!();
+
+      // Should process the entire chunk
+      expect(target.innerHTML).toBe("<p>Start</p><!-- middle --><p>End</p>");
+    });
+
+    test("processes empty chunks (no comments)", () => {
+      const element = document.createElement("div");
+      const mockXhr = {
+        getResponseHeader: (header: string) => {
+          if (header === "Transfer-Encoding") return "chunked";
+          return null;
+        },
+        response: "",
+        onprogress: null as any,
+      };
+
+      const event = {
+        target: element,
+        detail: { xhr: mockXhr },
+      };
+
+      registeredExtension.onEvent("htmx:beforeRequest", event);
+      mockXhr.onprogress!();
+
+      // Empty chunks pass through (no content added, but swap is called)
+      expect(target.innerHTML).toBe("");
+    });
+
+    test("processes whitespace-only chunks (no comments)", () => {
+      const element = document.createElement("div");
+      const mockXhr = {
+        getResponseHeader: (header: string) => {
+          if (header === "Transfer-Encoding") return "chunked";
+          return null;
+        },
+        response: "   \n  \t  ",
+        onprogress: null as any,
+      };
+
+      const event = {
+        target: element,
+        detail: { xhr: mockXhr },
+      };
+
+      registeredExtension.onEvent("htmx:beforeRequest", event);
+      mockXhr.onprogress!();
+
+      // Whitespace-only chunks (no comments) pass through and get trimmed by DOM
+      // The whitespace gets normalized to empty when set as innerHTML
+      expect(target.innerHTML.trim()).toBe("");
+    });
+  });
+
   describe("hx-chunked-mode=swap", () => {
     test("default mode (append) - accumulates all chunks", () => {
       const element = document.createElement("div");
