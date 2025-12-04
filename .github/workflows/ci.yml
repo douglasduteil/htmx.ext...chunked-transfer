@@ -16,3 +16,20 @@ jobs:
       - run: bun x prettier --check .
       - run: bun x tsc --noEmit
       - run: bun test
+
+  e2e-oob:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: oven-sh/setup-bun@v2
+      - run: sudo apt-get update && sudo apt-get install -y chromium-browser
+      - run: bun install
+      - run: bun install
+        working-directory: example/oob
+      - run: bun run start &
+        working-directory: example/oob
+      - run: bun test
+        working-directory: example/oob
+        env:
+          PUPPETEER_EXECUTABLE_PATH: /usr/bin/chromium-browser

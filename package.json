@@ -26,7 +26,7 @@
   "scripts": {
     "build": "bun run scripts/build.ts",
     "dev": "bun start",
-    "test": "bun test"
+    "test": "bun test ./index.test.ts"
   },
   "devDependencies": {
     "@tsconfig/bun": "^1.0.1",
