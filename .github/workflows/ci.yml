@@ -6,6 +6,7 @@ on:
 
 jobs:
   build:
+    name: 🔨 Build & Lint
     runs-on: ubuntu-latest
 
     steps:
@@ -18,14 +19,14 @@ jobs:
       - run: bun test
 
   e2e-oob:
+    name: 🚀 E2E OOB Tests
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
-      - run: sudo apt-get update && sudo apt-get install -y chromium-browser
-      - run: bun install
-      - run: bun install
+      - run: bun ci
+      - run: bun ci
         working-directory: example/oob
       - run: bun run start &
         working-directory: example/oob
