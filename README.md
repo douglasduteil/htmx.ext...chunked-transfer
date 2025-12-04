@@ -27,6 +27,43 @@ $ npm install htmx.ext...chunked-transfer
 </body>
 ```
 
+### Swap Mode
+
+By default, chunks are appended to the target element. Use `hx-chunked-mode="swap"` to replace the previous chunk with each new one:
+
+```html
+<form
+  hx-post="/process"
+  hx-ext="chunked-transfer"
+  hx-chunked-mode="swap">
+  <button type="submit">Process</button>
+</form>
+```
+
+**Append mode (default):** Accumulates all chunks
+```
+Chunk 1: <p>Loading...</p>
+Chunk 2: <p>Loading...</p><p>50%</p>
+Chunk 3: <p>Loading...</p><p>50%</p><p>Done!</p>
+```
+
+**Swap mode:** Shows only the latest chunk
+```
+Chunk 1: <p>Loading...</p>
+Chunk 2: <p>50%</p>           (replaces previous)
+Chunk 3: <p>Done!</p>         (replaces previous)
+```
+
+### Comment Filtering
+
+Comment-only chunks (heartbeats) are automatically ignored:
+
+```html
+<!-- heartbeat -->              ← Ignored, no DOM update
+<p>Content</p>                  ← Processed
+<!-- debug --><p>Content</p>    ← Processed (has content)
+```
+
 ## [Examples](./example/)
 
 - Using [Hono](https://hono.dev/)
