@@ -22,7 +22,8 @@ declare const htmx: typeof htmxType;
 
       if (name === "htmx:beforeRequest") {
         const xhr = evt.detail.xhr as XMLHttpRequest;
-        (xhr as any)._chunkedMode = elt.getAttribute("hx-chunked-mode") || "append";
+        (xhr as any)._chunkedMode =
+          elt.getAttribute("hx-chunked-mode") || "append";
         (xhr as any)._chunkedLastLen = 0;
 
         xhr.onprogress = function () {
