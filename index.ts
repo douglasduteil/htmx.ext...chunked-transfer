@@ -22,21 +22,35 @@ declare const htmx: typeof htmxType;
 
       if (name === "htmx:beforeRequest") {
         const xhr = evt.detail.xhr as XMLHttpRequest;
+        (xhr as any)._chunkedMode = elt.getAttribute("hx-chunked-mode") || "append";
+        (xhr as any)._chunkedLastLen = 0;
+
         xhr.onprogress = function () {
           const is_chunked =
             xhr.getResponseHeader("Transfer-Encoding") === "chunked";
 
           if (!is_chunked) return;
 
-          let response = xhr.response as string;
+          const mode = (xhr as any)._chunkedMode || "append";
+          const full = (xhr.response as string) ?? "";
+          let response: string;
+
+          if (mode === "swap") {
+            const lastLen = (xhr as any)._chunkedLastLen || 0;
+            if (full.length <= lastLen) return;
+            response = full.slice(lastLen);
+            (xhr as any)._chunkedLastLen = full.length;
+          } else {
+            response = full;
+          }
 
           api.withExtensions(elt, function (extension) {
             if (!extension.transformResponse) return;
             response = extension.transformResponse(response, xhr, elt);
           });
 
-          var swapSpec = api.getSwapSpecification(elt);
-          var settleInfo = api.makeSettleInfo(elt);
+          const swapSpec = api.getSwapSpecification(elt);
+          const settleInfo = api.makeSettleInfo(elt);
           if (api.swap) {
             api.swap(target, response, swapSpec);
           } else {
@@ -50,6 +64,22 @@ declare const htmx: typeof htmxType;
           }
           api.settleImmediately(settleInfo.tasks);
         };
+      }
+
+      // Keep: cancel final full swap in swap mode
+      if (name === "htmx:beforeSwap") {
+        const detail = evt.detail as any;
+        const xhr = detail && (detail.xhr as XMLHttpRequest | undefined);
+        if (!xhr) return;
+
+        const mode = (xhr as any)._chunkedMode;
+        if (mode !== "swap") return;
+
+        const is_chunked =
+          xhr.getResponseHeader("Transfer-Encoding") === "chunked";
+        if (!is_chunked) return;
+
+        detail.shouldSwap = false;
       }
     },
   } as HtmxExtension & { init: (apiRef: any) => void });
