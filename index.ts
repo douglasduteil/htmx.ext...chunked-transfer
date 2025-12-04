@@ -1,6 +1,11 @@
 //
 
 import type { HtmxExtension } from "htmx.org";
+import type htmxType from "htmx.org";
+
+//
+
+declare const htmx: typeof htmxType;
 
 //
 
@@ -49,15 +54,6 @@ import type { HtmxExtension } from "htmx.org";
     },
   } as HtmxExtension & { init: (apiRef: any) => void });
 })();
-
-//
-
-declare global {
-  var htmx: typeof import("htmx.org");
-  interface Window {
-    htmx: typeof import("htmx.org");
-  }
-}
 
 //
 // Inspired by https://github.com/delaneyj/nothtmx2
