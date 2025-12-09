@@ -65,6 +65,8 @@ describe("chunked-transfer extension", () => {
       const mockXhr = {
         getResponseHeader: (header: string) => {
           if (header === "Transfer-Encoding") return null;
+          // Non-chunked responses have Content-Length
+          if (header === "Content-Length") return "22";
           return null;
         },
         response: "<p>Normal response</p>",
@@ -85,6 +87,34 @@ describe("chunked-transfer extension", () => {
 
       // Target should still be empty (no swap happened)
       expect(target.innerHTML).toBe("");
+    });
+
+    test("processes HTTP/2 streaming responses (no Transfer-Encoding or Content-Length)", () => {
+      const element = document.createElement("div");
+      const mockXhr = {
+        getResponseHeader: (header: string) => {
+          // HTTP/2 streaming: no Transfer-Encoding, no Content-Length
+          return null;
+        },
+        response: "<p>HTTP/2 streamed content</p>",
+        onprogress: null as any,
+      };
+
+      const event = {
+        target: element,
+        detail: { xhr: mockXhr },
+      };
+
+      registeredExtension.onEvent("htmx:beforeRequest", event);
+
+      // Verify onprogress handler was set
+      expect(mockXhr.onprogress).toBeDefined();
+
+      // Simulate progress event
+      mockXhr.onprogress!();
+
+      // Verify content was swapped
+      expect(target.innerHTML).toBe("<p>HTTP/2 streamed content</p>");
     });
 
     test("ignores events other than beforeRequest", () => {
@@ -576,7 +606,8 @@ describe("chunked-transfer extension", () => {
 
       const mockXhr = {
         getResponseHeader: (header: string) => {
-          // NOT chunked
+          // NOT chunked - has Content-Length
+          if (header === "Content-Length") return "15";
           return null;
         },
         response: "<p>Final</p>",
