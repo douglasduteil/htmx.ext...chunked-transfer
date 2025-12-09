@@ -138,13 +138,13 @@ interface SwapSpec {
 }
 
 interface SwapOptions {
-  select: string;
-  selectOOB: string;
-  eventInfo: Object;
-  anchor: Element;
-  contextElement: Element;
-  afterSwapCallback: () => void;
-  afterSettleCallback: () => void;
+  select?: string;
+  selectOOB?: string;
+  eventInfo?: Object;
+  anchor?: Element;
+  contextElement?: Element;
+  afterSwapCallback?: () => void;
+  afterSettleCallback?: () => void;
 }
 
 interface SettleInfo {
