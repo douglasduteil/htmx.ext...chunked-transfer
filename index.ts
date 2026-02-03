@@ -60,7 +60,9 @@ declare const htmx: typeof htmxType;
 
           if (api.swap) {
             // Pass contextElement to enable OOB swap processing (Issue #117)
-            api.swap(target, response, swapSpec, { contextElement: elt });
+            api.swap(target, response, swapSpec, {
+              contextElement: elt,
+            } as any);
           } else {
             api.selectAndSwap(
               swapSpec.swapStyle,
