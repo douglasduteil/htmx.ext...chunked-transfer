@@ -96,9 +96,8 @@ describe("Multi-stream OOB updates with chunked-transfer", () => {
       "#counter-3 .value",
       (el) => el.textContent,
     );
-    const statusFinal = await page.$eval(
-      "#status",
-      (el) => el.textContent?.trim(),
+    const statusFinal = await page.$eval("#status", (el) =>
+      el.textContent?.trim(),
     );
 
     console.log("Final counters:", counter1Final, counter2Final, counter3Final);
@@ -118,9 +117,8 @@ describe("Multi-stream OOB updates with chunked-transfer", () => {
     // Navigate with fast timing query parameters (150ms intervals for better test timing)
     await page.goto("http://localhost:3000?updateInterval=150&chunkDelay=50");
 
-    const statusBefore = await page.$eval(
-      "#status",
-      (el) => el.textContent?.trim(),
+    const statusBefore = await page.$eval("#status", (el) =>
+      el.textContent?.trim(),
     );
     expect(statusBefore).toBe("Ready to stream");
 
@@ -130,18 +128,16 @@ describe("Multi-stream OOB updates with chunked-transfer", () => {
     // Wait for first status update (sent at t=0)
     await new Promise((resolve) => setTimeout(resolve, 100));
 
-    const statusDuring = await page.$eval(
-      "#status",
-      (el) => el.textContent?.trim(),
+    const statusDuring = await page.$eval("#status", (el) =>
+      el.textContent?.trim(),
     );
     expect(statusDuring).toContain("Streaming update");
 
     // Wait for completion (2 delays of 150ms + final + buffer)
     await new Promise((resolve) => setTimeout(resolve, 400));
 
-    const statusAfter = await page.$eval(
-      "#status",
-      (el) => el.textContent?.trim(),
+    const statusAfter = await page.$eval("#status", (el) =>
+      el.textContent?.trim(),
     );
     expect(statusAfter).toBe("✓ Streaming complete!");
   }, 10000);
