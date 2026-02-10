@@ -7,7 +7,7 @@
       "devDependencies": {
         "@tsconfig/bun": "^1.0.1",
         "@types/bun": "^1.2.11",
-        "@types/web": "^0.0.329",
+        "@types/web": "^0.0.330",
         "happy-dom": "^20.0.11",
         "htmx.org": "^2.0.0",
         "prettier": "^3.1.1",
@@ -22,7 +22,7 @@
 
     "@types/node": ["@types/node@25.2.2", "", { "dependencies": { "undici-types": "~7.16.0" } }, "sha512-BkmoP5/FhRYek5izySdkOneRyXYN35I860MFAGupTdebyE66uZaR+bXLHq8k4DirE5DwQi3NuhvRU1jqTVwUrQ=="],
 
-    "@types/web": ["@types/web@0.0.329", "", {}, "sha512-bN6arw3cJ1P607brIP16VVP7TA+jrMA5RdV1bEbi9UshLSzLQ8EVM4AsZo5/hhGRbB3n9eExbCem+GUohXv+Ng=="],
+    "@types/web": ["@types/web@0.0.330", "", {}, "sha512-645fts8JWfXUyNAOydwrNJf+fEn3mkph70tsGPI+KAL2ZQXfb1AfsnEuxK7NF+qwjxtIKqG27AbS6NsuZRFISw=="],
 
     "@types/whatwg-mimetype": ["@types/whatwg-mimetype@3.0.2", "", {}, "sha512-c2AKvDT8ToxLIOUlN51gTiHXflsfIFisS4pO7pDPoKouJCESkhZnEy623gwP9laCy5lnLDAw1vAzu2vM2YLOrA=="],
 
