@@ -31,7 +31,7 @@
   "devDependencies": {
     "@tsconfig/bun": "^1.0.1",
     "@types/bun": "^1.2.11",
-    "@types/web": "^0.0.336",
+    "@types/web": "^0.0.337",
     "happy-dom": "^20.0.11",
     "htmx.org": "^2.0.0",
     "prettier": "^3.1.1",
