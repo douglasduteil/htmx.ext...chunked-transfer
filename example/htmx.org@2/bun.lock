@@ -68,7 +68,7 @@
 
     "concrete.css": ["concrete.css@3.1.0", "", {}, "sha512-EooalG5LLTvjw/KuaVN8OZ0vijygyTeEn21Qk5dSIoiryXfkHm+zQ1PeNBHaFixopcJxBtuw5Tb3v8qqwouRSg=="],
 
-    "hono": ["hono@4.12.31", "", {}, "sha512-zJIHFrl6bq3RDd2YusFNCDlM8qUprxKswyi/OPzPyzKDdyBXDqWx8bZlZ7R+saTdSTatUmb3O7K4SspGPaEOQg=="],
+    "hono": ["hono@4.12.32", "", {}, "sha512-XcuyW9qE2kJn07PkecMOBd5Vq/hMy7mmGw+idz1yblbg9N17ijJODrvPkn7/dwL3Kulj8LcRJ69DLOWf91dRUg=="],
 
     "htmx-ext-debug": ["htmx-ext-debug@2.0.2", "", { "dependencies": { "htmx.org": "^2.0.2" } }, "sha512-G3QCwvvxtvknrM1meIseCtGzNpGKNs5EoqymSeQyXWqII0PfUGavmDo5h4x/efq5kkMe14Yb3YKnOVxuLxDOdA=="],
 
