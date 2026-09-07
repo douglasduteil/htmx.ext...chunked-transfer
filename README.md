@@ -6,6 +6,11 @@
 
 > Chunked transfer encoding extension for [htmx](https://htmx.org) .
 
+> [!WARNING]
+> **Deprecated.** htmx 4 ships an official [`hx-multipart`](https://four.htmx.org/extensions/hx-multipart) extension covering this use case (streamed HTML swaps) plus per-part targets/swap modes, reconnecting streams, and mixed content types. Use that instead if you're on htmx 4.
+>
+> This extension stays relevant for projects still on htmx 1.x/2.x, where `hx-multipart` isn't available.
+
 This extension adds Chunked transfer encoding to htmx requests.
 \following https://github.com/bigskysoftware/htmx/issues/1911
 
